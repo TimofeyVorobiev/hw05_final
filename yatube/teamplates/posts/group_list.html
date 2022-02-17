@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ group.title }}{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <nav class="col-md-8 p-5">
+      <h1>{{ group.title }}</h1>
+      <p>
+        {{ group.description }}
+      </p>
+      {% for post in page_obj %}
+        {% include 'posts/post.html' %}
+
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+      <div class="pagination justify-content-center">
+        {% include 'posts/includes/paginator.html' %}
+
+      </div>
+    </nav>
+  </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Custom 403{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <nav class="col-md-8 p-5">
+      <h1>Ошибка 403</h1>
+      <p>
+        Доступ к странице {{ path }} запрещен.
+      </p>
+      <a href="{% url 'posts:index' %}">Идите на главную</a>
+    </nav>
+  </div>
+{% endblock %}

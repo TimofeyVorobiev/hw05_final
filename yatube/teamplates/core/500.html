@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Custom 500{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <nav class="col-md-8 p-5">
+      <h1>Ошибка 500</h1>
+      <p>
+        Ошибка на сервере
+      </p>
+      <a href="{% url 'posts:index' %}">Идите на главную</a>
+    </nav>
+  </div>
+{% endblock %}

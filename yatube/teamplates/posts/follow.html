@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Ваши подписки{% endblock %}
+
+{% block header %}Подписки пользователя{% endblock %}
+
+{% block content %}
+  {% include 'posts/includes/switcher.html' with follow=True %}
+
+  <div class="row justify-content-center">
+    <nav class="col-md-8 p-5">
+      <h1>Последние обновления на сайте</h1>
+      {% for post in page_obj %}
+        {% include 'posts/post.html' %}
+
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+      <nav class="my-5">
+        {% include 'posts/includes/paginator.html' %}
+
+      </nav>
+    </nav>
+  </div>
+{% endblock %}
