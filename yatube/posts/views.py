@@ -1,12 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, Page
-from django.db.models import QuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import PostForm, CommentForm
 from .models import Group, Post, User, Follow
-
-POST_QUANTITY: int = 10
+from .utils import posts_on_page
 
 
 @login_required
@@ -55,14 +52,6 @@ def post_edit(request, post_id):
     })
 
 
-def posts_on_page(page_number: int,
-                  post_list: QuerySet,
-                  on_screen_posts: int = POST_QUANTITY) -> Page:
-    paginator = Paginator(post_list, on_screen_posts)
-    page_posts = paginator.get_page(page_number)
-    return page_posts
-
-
 def index(request):
     posts = Post.objects.select_related('group', 'author')
     page_number = request.GET.get('page')
@@ -90,9 +79,8 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     posts = author.posts.select_related('group')
     page_number = request.GET.get('page')
-    following = Follow.objects.filter(
-        user_id=request.user.id,
-        author_id=author.id).exists()
+    user = request.user
+    following = user.is_authenticated and author.following.exists()
     page_obj = posts_on_page(page_number, posts)
     context = {
         'author': author,
@@ -103,7 +91,7 @@ def profile(request, username):
 
 
 def post_detail(request, post_id):
-    post = Post.objects.get(pk=post_id)
+    post = get_object_or_404(Post, pk=post_id)
     author = post.author
     form = CommentForm(request.POST or None)
     comments = post.comments.all()

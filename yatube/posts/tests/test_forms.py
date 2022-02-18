@@ -117,6 +117,7 @@ class PostFormTests(TestCase):
             'posts:post_detail', kwargs={'post_id': self.post.id}))
         self.assertEqual(Comment.objects.count(), comments_count + 1)
         self.assertEqual(Comment.objects.last().text, self.comment.text)
+        self.assertEqual(Comment.objects.last().post, self.comment.post)
 
     def test_follow(self):
         """ Проверка создания подписки """
