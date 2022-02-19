@@ -28,7 +28,25 @@ class PostURLTests(TestCase):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
-    def test_urls_guest_correct_template_and_location(self):
+    def test_urls(self):
+        templates_url_names = {
+            'users/signup.html': '/auth/signup/',
+            'users/login.html': '/auth/login/',
+            'users/password_change_form.html': '/auth/password_change/',
+            'users/password_change_done.html': '/auth/password_change/done/',
+            'users/password_reset_form.html': '/auth/password_reset/',
+            'users/password_reset_done.html': '/auth/password_reset/done/',
+            'users/password_reset_complete.html': '/auth/reset/done/',
+            'users/logged_out.html': '/auth/logout/',
+        }
+
+        for template, address in templates_url_names.items():
+            with self.subTest(address=address):
+                response = self.authorized_client.get(address)
+                self.assertTemplateUsed(response, template)
+                self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_urls_guest_correct_template_and_location_post(self):
         """ Проверяем доступность всех шаблонов и адресов из
         приложения posts и about всем пользователям """
         templates_url_names_guest = {
