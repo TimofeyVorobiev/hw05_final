@@ -164,10 +164,7 @@ class SignUpPageTests(TestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
         cls.signup_data = {
-            'first_name': 'first_name',
-            'last_name': 'last_name',
             'username': 'username',
-            'email': 'username@username.com',
             'password1': '1234_Abc',
             'password2': '1234_Abc',
         }

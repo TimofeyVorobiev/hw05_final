@@ -9,6 +9,7 @@ from .utils import posts_on_page
 @login_required
 def add_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+  #  form = CommentForm()
     form = CommentForm(request.POST or None)
     if form.is_valid():
         comment = form.save(commit=False)
