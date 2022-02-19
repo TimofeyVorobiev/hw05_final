@@ -80,7 +80,9 @@ def profile(request, username):
     posts = author.posts.select_related('group')
     page_number = request.GET.get('page')
     user = request.user
-    following = user.is_authenticated and author.following.exists()
+    following = False
+    if request.user.is_authenticated:
+        following = user.is_authenticated and author.following.exists()
     page_obj = posts_on_page(page_number, posts)
     context = {
         'author': author,
