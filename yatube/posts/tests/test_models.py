@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+
 from ..models import Group, Post
 
 User = get_user_model()
@@ -19,6 +20,10 @@ class PostModelTest(TestCase):
             author=cls.user,
             text='Поста',
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
 
     def test_models_post_have_correct_object_names(self):
         """Модель POST.Проверка длинны поста до 15 символов и __str__"""

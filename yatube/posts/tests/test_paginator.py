@@ -36,6 +36,10 @@ class PaginatorViewsTest(TestCase):
                 group=cls.group,
             )
 
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+
     def test_paginator_on_pages(self):
         """ Проверка пагинации на страницах"""
         urls = [

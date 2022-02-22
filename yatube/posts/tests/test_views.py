@@ -25,6 +25,10 @@ class PostsPagesTests(TestCase):
             group=cls.group,
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+
     def setUp(self):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
