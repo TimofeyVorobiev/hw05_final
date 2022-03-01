@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
+from django.urls import reverse
 
 from ..models import Post, Group
 
@@ -76,20 +77,24 @@ class PostURLTests(TestCase):
 
     def test_auth_user_post_create_teamplate(self):
         """Проверка шаблона создания поста для авторизованного пользователя """
-        response = self.authorized_client.get('/create/')
+        response = self.authorized_client.get(reverse('posts:post_create'))
         self.assertTemplateUsed(response, 'posts/post_create.html')
 
     def test_auth_user_post_create_response(self):
         """Проверка доступа к страницы создания поста
         для авторизованного пользователя """
-        response = self.authorized_client.get('/create/')
+        response = self.authorized_client.get(reverse('posts:post_create'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_guest_user_post_create_redirect(self):
         """Проверка редиректа с страницы создания поста
         для неавторизованного пользователя """
-        response = self.client.get('/create/')
-        self.assertRedirects(response, '/auth/login/?next=/create/')
+        response = self.client.get(reverse('posts:post_create'))
+    #    self.assertRedirects(response, '/auth/login/?next=/create/')
+        p1 = reverse('posts:post_create')
+        p2 = reverse('users:login')
+        self.assertRedirects(response, f'{p2}?next={p1}')
+        self.assertEqual(response.status_code, 302)
 
     def test_guest_user_post_edit(self):
         """Проверка доступа к странице редактирования поста

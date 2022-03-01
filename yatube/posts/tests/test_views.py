@@ -131,7 +131,7 @@ class PostsPagesTests(TestCase):
         self.context_info(response.context['page_obj'][0])
 
     def test_post_appears_on_the_group_list_page(self):
-        """ Проверка отображения постав в группе """
+        """ Проверка отображения поста в группе """
         response = self.authorized_client.get(
             reverse('posts:group_list', kwargs={'slug': self.group.slug})
         )
