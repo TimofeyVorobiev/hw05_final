@@ -83,6 +83,19 @@ class PostFormTests(TestCase):
         self.assertEqual(post.author, form_data['author'])
         self.assertEqual(post.image, f'posts/{uploaded.name}')
 
+    def test_existing_post_editing(self):
+        tostform_data = {
+            'text': 'Отредактированный текст',
+            'group': self.group.pk,
+        }
+        response = self.authorized_client.post(
+            reverse('posts:post_edit', kwargs={'post_id': self.post.id}),
+            data=tostform_data,
+            follow=True
+        )
+        self.assertEqual(Post.objects.get(id=self.post.id).text, 'Отредактированный текст')
+
+
     def test_edit_postrrr(self):
         """ Проверка редактирования поста """
         edit_form_data = {
